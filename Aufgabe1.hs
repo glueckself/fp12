@@ -14,11 +14,22 @@ sumPowers :: Integer -> Integer -> Integer
 sumPowers n k = 
     if k < 0
         then (-1)
-        else if n < 0
-            then (0)
-            else sum (map (^k) [1..n])
+       -- else if n < 0
+       --     then (0) -- Summe von 1..(n<1)=???
+        else sum (map (^k) [1..n])
 
 -- Bsp. 3
+-- group erzeugt eine Liste von Listen von Chars, daher ist ein concat
+-- notwendig, um die inneren Listen "zusammenzufassen" -> Liste von Chars
+-- -> String
 shrink :: Char -> String -> String
 
 shrink c s = concat (map (nubBy (\a b -> (a == c)&&(a == b))) (group s))
+
+-- Bsp. 4
+-- concat wie bei Bsp 3.
+stretch :: Char -> Integer -> String -> String
+
+stretch c n s = let (i::Int) = fromIntegral n in
+                concat (map (\e -> if e == c then replicate i c else [e]) s)
+
