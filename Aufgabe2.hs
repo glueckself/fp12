@@ -47,33 +47,24 @@ type Airfare = Integer
 type Database = [(PassName,FlightNumber,PlaceOfDeparture,Destination,Airfare)]
 
 -- Bsp. 3
-
 flights :: Database -> PassName -> [(FlightNumber,Airfare)]
 flights db name = let result = filter (\(p,f,pd,d,a) -> p == name) db in
                     sort (map (\(p,f,pd,d,a) -> (f,a)) result)
 
-
--- pass2Dest
+-- Bsp. 4
 pass2Dest :: Database -> Destination -> [PassName]
-
 pass2Dest db dest = let result = filter (\(p,f,pd,d,a) -> d == dest) db in
                         sort (map (\(p,f,pd,d,a) -> p) result)
 
--- mostValuedPass
+-- Bsp. 5
 mostValuedPass :: Database -> PlaceOfDeparture -> Destination -> ([PassName],Airfare)
-
+-- relevantData: Nur Datensaetze, bei denen Start und Ziel uebereinstimmen
+-- dataView: Alles ausser PassName und Airfare entfernt um fst und snd benutzen zu koennen
+-- maxAf: maximaler Airfare in der Liste
+-- result: Nur Namen, die maxAf haben, damit ich auf alle Elemente fst anwenden kann
 mostValuedPass db pod dest = let relevantData = filter (\(p,f,pd,d,a) -> (pd == pod) && (d == dest)) db in
                              let dataView = map (\(p,f,pd,d,a) -> (p,a)) relevantData in
                              let maxAf = maximum (map snd dataView) in
                              let result = filter (\(p,a) -> a == maxAf) dataView in
                                 (reverse(sort((map fst result))),maxAf)
--- test database
-db =  [ ("Anton",857,"Vienna","London",237),
-        ("Berta",456,"Paris","Berlin",278),
-        ("Anton",123,"Rome","London",417),
-        ("Anton",109,"London","Berlin",237),
-        ("Karla",888,"Vienna","Rome",350),
-        ("Karla",832,"Rome","London",417),
-        ("Berta",857,"Vienna","London",199),
-        ("Karla",753,"Vienna","London",237) ]
 
