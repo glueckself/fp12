@@ -21,6 +21,7 @@ kgv m n = let a = abs(m) in
                      else div (a*b) (ggt a b)
 
 -- Bsp. 2
+-- Hilfsfunktion, die ein Vielfaches von a mit p <= v <= q bildet
 vf :: Integer -> (Integer,Integer) -> [Integer]
 vf a (p,q) = let p1 = if (p > 0) then div p a 
                                  else 1
@@ -29,7 +30,7 @@ vf a (p,q) = let p1 = if (p > 0) then div p a
                                  else 1
                                  in
                                      map (*a) [p1..q1]
---
+-- agv
 agv :: Integer -> Integer -> (Integer,Integer) -> [Integer]
 agv m n (p,q) = let a = abs(m) in
                 let b = abs(n) in
@@ -38,7 +39,6 @@ agv m n (p,q) = let a = abs(m) in
                            else nub (intersect (vf a (p,q)) (vf b (p,q)))
 
 -- Bsp. 3/4/5
-
 type PassName = String
 type FlightNumber = Integer
 type PlaceOfDeparture = String
@@ -46,9 +46,12 @@ type Destination = String
 type Airfare = Integer
 type Database = [(PassName,FlightNumber,PlaceOfDeparture,Destination,Airfare)]
 
-flights :: Database -> PassName -> [(FlightNumber,Airfare)]
+-- Bsp. 3
 
-flights db name = []
+flights :: Database -> PassName -> [(FlightNumber,Airfare)]
+flights db name = let result = filter (\(p,f,pd,d,a) -> p == name) db in
+                    sort (map (\(p,f,pd,d,a) -> (f,a)) result)
+
 
 -- pass2Dest
 pass2Dest :: Database -> Destination -> [PassName]
