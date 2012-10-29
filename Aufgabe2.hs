@@ -56,7 +56,8 @@ flights db name = let result = filter (\(p,f,pd,d,a) -> p == name) db in
 -- pass2Dest
 pass2Dest :: Database -> Destination -> [PassName]
 
-pass2Dest db dest = []
+pass2Dest db dest = let result = filter (\(p,f,pd,d,a) -> d == dest) db in
+                        sort (map (\(p,f,pd,d,a) -> p) result)
 
 -- mostValuedPass
 mostValuedPass :: Database -> PlaceOfDeparture -> Destination -> ([PassName],Airfare)
