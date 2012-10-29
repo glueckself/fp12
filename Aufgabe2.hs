@@ -62,8 +62,11 @@ pass2Dest db dest = let result = filter (\(p,f,pd,d,a) -> d == dest) db in
 -- mostValuedPass
 mostValuedPass :: Database -> PlaceOfDeparture -> Destination -> ([PassName],Airfare)
 
-mostValuedPass db pod dest = ([],0)
-
+mostValuedPass db pod dest = let relevantData = filter (\(p,f,pd,d,a) -> (pd == pod) && (d == dest)) db in
+                             let dataView = map (\(p,f,pd,d,a) -> (p,a)) relevantData in
+                             let maxAf = maximum (map snd dataView) in
+                             let result = filter (\(p,a) -> a == maxAf) dataView in
+                                (reverse(sort((map fst result))),maxAf)
 -- test database
 db =  [ ("Anton",857,"Vienna","London",237),
         ("Berta",456,"Paris","Berlin",278),
