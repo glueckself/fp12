@@ -19,7 +19,18 @@ Hilfsfunktion um Null am Anfang zu entfernen
 Beispiel 2:
 Hilfsfunktion (angelehnt an den binaeren Addierer):
 
- nbAdd :: NegaBinary -> NegaBinary -> NegaBinary -> (NegaBinary,NegaBinary)
- nbAdd a b c =
+> nbAddBit :: NegaBinary -> NegaBinary -> NegaBinary -> (NegaBinary,NegaBinary)
+> nbAddBit a b c = let aI = read a 
+>                      bI = read b
+>                      cI = read c
+>                  in case aI+bI+cI of 0    -> ("0","0")
+>                                      1    -> ("1","0")
+>                                      2    -> ("0","-1")
+>                                      3    -> ("1","-1")
+>                                      (-1) -> ("1","1")
+>                                      (-2) -> ("0","1")
 
 nbIncr :: NegaBinary -> NegaBinary
+
+nbAdd :: NegaBinary -> NegaBinary -> NegaBinary
+nbAdd nb1 nb2
