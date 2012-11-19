@@ -17,7 +17,9 @@ tzw f (Tree i1 a1 Null) (Tree i2 a2 Null) = Tree (f i1 i2) (tzw f a1 a2) Null
 tzw f (Tree i1 a1 b1) (Tree i2 a2 b2) = Tree (f i1 i2) (tzw f a1 a2) (tzw f b1 b2)
 
 
--- tfold :: (Label -> Label -> Label -> Label) -> Label -> Tree -> Label
+tfold :: (Label -> Label -> Label -> Label) -> Label -> Tree -> Label
+tfold f v Null = v
+tfold f v (Tree i a b) = f i (tfold f v a) (tfold f v b)
 
 
 type ErdosNumber = Integer
@@ -28,7 +30,19 @@ type Author = Scientist
 newtype Database = Db [([Author],PaperTitle)]
 type PaperTitle = String
 
+compareSc :: Scientist -> Scientist -> Bool
+compareSc Null _ = False
+compareSc _ Null = False
+compareSc (Sc i1 s1) (Sc i2 s2) = if i1 == i2 and s1 == s2 then True
+                                                           else False
 
+
+getSCList :: Database -> [Scientist] -> [Scientist]
+
+
+erdosNum :: Database -> Scientist -> ErdosNumber
+erdosNum db (Sc 'P' "Erdos") = 0
+erdosNum db (Sc i s) = 
 
 
 -- Daten zum Testen
@@ -38,3 +52,9 @@ t1 = Null
 t2 = Tree 2 (Tree 3 Null Null) (Tree 5 Null Null)
 t3 = Tree 2 (Tree 3 (Tree 5 Null Null) Null) (Tree 7 Null Null)
 
+db = Db [([Sc 'M' "Smith",Sc 'G' "Martin",Sc 'P' "Erdos"],"Newtonian Forms of Prime Factors"),
+    ([Sc 'P'"Erdos",Sc 'W' "Reisig"],"Stuttering in Petri Nets") ,
+    ([Sc 'M' "Smith",Sc 'X' "Chen"],"First Order Derivates in Structured Programming"),
+    ([Sc 'T' "Jablonski",Sc 'Z' "Hsueh"],"Selfstabilizing Data Structures"),
+    ([Sc 'X' "Chen",Sc 'L' "Li"],"Prime Numbers and Beyond")]
+    
