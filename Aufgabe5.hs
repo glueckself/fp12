@@ -29,7 +29,9 @@ newtype Database = Db [([Author],PaperTitle)]
 type PaperTitle = String
 
 
-
+getListOfSc :: Database -> [Scientist] -> [Scientist]
+getListOfSc [] _ = []
+getListOfSc e:db sc = let result = find (\s -> compare
 
 -- Daten zum Testen
 f1 = \x y z -> x+y+z
